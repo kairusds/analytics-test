@@ -1,0 +1,118 @@
+<?php
+
+$url = getenv("JAWSDB_URL");
+$dbparts = parse_url($url);
+$hostname = $dbparts["host"];
+$username = $dbparts["user"];
+$password = $dbparts["pass"];
+$database = ltrim($dbparts["path"], "/");
+
+$dbconn = mysqli_connect($hostname, $username, $password);
+
+if(!$dbconn){
+	die("Failed to connect to MySQL: " . mysqli_connect_error());
+}
+mysqli_select_db($dbconn, $database);
+
+function query($conn, $sql){
+	$res = null;
+	try{
+		$res = mysqli_query($conn, $sql);
+	}catch(Exception $e){
+		echo $e->getMessage();
+	}
+	return $res;
+}
+
+query($dbconn, "set names \"utf8\"");
+
+$create_query = <<<SQL
+CREATE TABLE IF NOT EXISTS `bbl_analytics` (
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `device_model` VARCHAR(50) NOT NULL,
+  `region` varchar(3) DEFAULT "cn",
+  `sdk_version` TINYINT(4) DEFAULT "1"
+) ENGINE="MyISAM" DEFAULT CHARSET="utf8";
+SQL;
+
+query($dbconn, $create_query);
+
+function compile_db_insert_string($data){
+	$field_names  = "";
+	$field_values = "";
+	foreach ($data as $k => $v) {
+		$field_names .= "{$k},";
+		$field_values .= "\"{$v}\",";
+	}
+	$field_names  = preg_replace("/,$/", "", $field_names);
+	$field_values = preg_replace("/,$/", "", $field_values);
+	return [
+		"FIELD_NAMES" => $field_names,
+		"FIELD_VALUES" => $field_values
+	];
+}
+
+function insert($tbl, $arr){
+	$dba = compile_db_insert_string($arr);
+	$sql = "INSERT INTO {$tbl} ({$dba['FIELD_NAMES']}) VALUES ({$dba['FIELD_VALUES']})";
+	return $sql;
+}
+
+query($dbconn, insert("`bbl_analytics`", [
+	"device_model" => "Redmi 7",
+	"region" => "ph",
+	"sdk_version" => "29"
+]));
+
+echo <<<HTML
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+		<title>Analytics Test</title>
+		<style>
+			table {
+				display: block;
+				border-collapse: collapse;
+				overflow-x: auto;
+				white-space: nowrap;
+			}
+			table, td, th {
+				border: 1px solid black;
+			}
+		</style>
+	</head>
+	<body>
+		<table>
+			<tr>
+				<th>ID</th>
+				<th>Device Model</th>
+				<th>Region</th>
+				<th>Android SDK</th>
+			</tr>
+HTML;
+
+$res = query($dbconn, "SELECT * FROM bbl_analytics ORDER BY id ASC");
+
+while($row = mysqli_fetch_assoc($res)){
+	echo <<<HTML
+			<tr>
+				<td>{$row["id"]}</td>
+				<td>{$row["device_model"]}</td>
+				<td>{$row["region"]}</td>
+				<td>{$row["sdk_version"]}</td>
+			</tr>
+HTML;
+}
+
+echo <<<HTML
+		</table>
+	</body>
+</html>
+HTML;
+
+if(mysqli_num_rows($res) > 100){
+	query($dbconn, "TRUNCATE bbl_analytics");
+	echo "<p>cleared</p>";
+}
