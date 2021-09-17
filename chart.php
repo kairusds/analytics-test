@@ -1,14 +1,33 @@
 <?php
 
 require_once "db.php";
+require_once "country.php";
 
 $res = query($dbconn, "SELECT * FROM bbl_analytics");
 
 $devices = [];
+$regions = [];
+$android_versions = [];
 while($row = mysqli_fetch_assoc($res)){
-	$device = $row["device_model"];
-	if(!isset($devices[$device])) $devices[$device] = 1;
-	$devices[$device]++;
+	increment_array($devices, $row["device_model"]);
+	increment_array($regions, iso_country_name($row["region"]));
+	increment_array($android_versions, $row["android_version"]);
+}
+
+function increment_array($arr, $key){
+	if(!isset($arr[$key])) $arr[$key] = 0;
+	$arr[$key]++;
+}
+
+function print_array($arr = ["null", "null"]){
+	$x = 0;
+	$str = "";
+	foreach($arr as $key => $val){
+		echo "[\"{$key}\", $val]";
+		$x++;
+		if($x < count($devices)) echo ",";
+	}
+	return $str;
 }
 
 ?>
@@ -23,28 +42,33 @@ while($row = mysqli_fetch_assoc($res)){
 		<script type="text/javascript">
 			google.charts.load("current", {"packages": ["corechart"]});
 			google.charts.setOnLoadCallback(drawChart);
+			
 			function drawChart(){
-				const data = google.visualization.arrayToDataTable([
-					["Device Models", "Amount"],
-					<?php
-						$x = 0;
-						if(empty($devices)) echo "[\"None\", 0]";
-						foreach($devices as $d => $a){
-							echo "[\"{$d}\", $a]";
-							if($x < count($devices)) echo ",";
-							$x++;
-						}
-					?>
+				const devicesData = google.visualization.arrayToDataTable([
+					["Device Models", "Popularity"],<?php echo print_array($devices); ?>
 				]);
-				const options = {
-					title: "Device Model Analytics"
-				};
-				const chart = new google.visualization.PieChart(document.getElementById("piechart"));
-				chart.draw(data, options);
+				const regionsData = google.visualization.arrayToDataTable([
+					["Regions", "Popularity"],<?php echo print_array($regions); ?>
+				]);
+				const androidVersionsData = google.visualization.arrayToDataTable([
+					["Android Versions", "Popularity"],<?php echo print_array($android_versions); ?>
+				]);
+
+				const $ = (selector) => document.querySelector(selector);
+
+				const devicesChart = new google.visualization.PieChart($("#devices-chart"));
+				const regionsChart = new google.visualization.GeoChart($("#regions-chart"));
+				const androidVersionsChart = new google.visualization.Bar($("#android-versions-chart"));
+
+				devicesChart.draw(devicesData, {title: "Device Models"});
+				regionsChart.draw(regionsData, {});
+				androidVersionsChart.draw(androidVersionsData, {title: "Android Versions"});
 			}
 		</script>
 	</head>
 	<body>
-		<div id="piechart" style="width: 600px; height: 200px;"></div>
+		<div id="devices-chart"></div>
+		<div id="regions-chart"></div>
+		<div id="android-versions-chart"></div>
 	</body>
 </html>

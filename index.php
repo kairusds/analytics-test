@@ -2,10 +2,18 @@
 
 require_once "db.php";
 
+$device_arr = ["G011A", "G011C", "G013A", "G013C", "G020A"];
+$region_arr = ["af", "dz", "bt", "hk", "vn"];
+$android_ver_arr = ["5.1", "6", "8", "9", "10"];
+
+function rand_array($arr){
+	return $arr[array_rand($arr)];
+}
+
 query($dbconn, insert("`bbl_analytics`", [
-	"device_model" => "Redmi 7",
-	"region" => "ph",
-	"sdk_version" => "29"
+	"device_model" => rand_array($device_arr),
+	"region" => rand_array($region_arr),
+	"android_version" => rand_array($android_ver_arr)
 ]));
 
 echo <<<HTML

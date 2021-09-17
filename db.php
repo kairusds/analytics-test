@@ -31,7 +31,8 @@ CREATE TABLE IF NOT EXISTS `bbl_analytics` (
   `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `device_model` VARCHAR(50) NOT NULL,
   `region` varchar(3) DEFAULT "cn",
-  `sdk_version` TINYINT(4) DEFAULT "1"
+  `android_version` TINYINT(4) DEFAULT "1",
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE="MyISAM" DEFAULT CHARSET="utf8";
 SQL;
 query($dbconn, $create_query);
