@@ -44,7 +44,7 @@ function print_array($arr = ["null", "null"]){
 		<title>Chart Test</title>
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script type="text/javascript">
-			google.charts.load("current", {"packages": ["corechart", "geochart"]});
+			google.charts.load("current", {"packages": ["bar", "corechart", "geochart"]});
 			google.charts.setOnLoadCallback(drawChart);
 			
 			function drawChart(){
