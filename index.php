@@ -1,9 +1,9 @@
 <?php
 
 require_once "db.php";
+require_once "country.php";
 
 $device_arr = ["G011A", "G011C", "G013A", "G013C", "G020A"];
-$region_arr = ["af", "dz", "bt", "hk", "vn"];
 $android_ver_arr = ["5.1", "6", "8", "9", "10"];
 
 function rand_array($arr){
@@ -12,7 +12,7 @@ function rand_array($arr){
 
 query($dbconn, insert("`bbl_analytics`", [
 	"device_model" => rand_array($device_arr),
-	"region" => rand_array($region_arr),
+	"region" => random_country_code(),
 	"android_version" => rand_array($android_ver_arr)
 ]));
 
