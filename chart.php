@@ -10,7 +10,7 @@ $regions = [];
 $android_vers = [];
 while($row = mysqli_fetch_assoc($res)){
 	$device = $row["device_model"];
-	$region = iso_country_name($row["region"]);
+	$region = $row["region"];
 	$android_ver = $row["android_version"];
 	increment_array($devices, $device);
 	increment_array($regions, $region);
