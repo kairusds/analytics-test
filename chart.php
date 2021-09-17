@@ -71,11 +71,6 @@ function print_array($arr = ["null", "null"]){
 		</script>
 	</head>
 	<body>
-		<?php
-		var_dump($devices);
-		var_dump($regions);
-		var_dump($android_versions);
-		?>
 		<div id="devices-chart"></div>
 		<div id="regions-chart"></div>
 		<div id="android-versions-chart"></div>
