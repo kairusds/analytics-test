@@ -71,8 +71,8 @@ function print_array($arr = ["null", "null"]){
 		</script>
 	</head>
 	<body>
-		<!-- <div id="devices-chart"></div> -->
+		<div id="devices-chart"></div>
 		<div id="regions-chart"></div>
-		<!-- <div id="android-versions-chart"></div> -->
+		<div id="android-versions-chart"></div>
 	</body>
 </html>

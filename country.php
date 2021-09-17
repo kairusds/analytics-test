@@ -5,7 +5,7 @@ function iso_country_name($iso_code){
 	$countries = json_decode($file, true);
 
 	for($i = 0; $i < count($countries); $i++){
-		if($countries[$i]["Code"] == $iso_code)
+		if(strtolower($countries[$i]["Code"]) == $iso_code)
 			return $countries[$i]["Name"];
 	}
 
