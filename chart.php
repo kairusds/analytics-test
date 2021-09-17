@@ -67,6 +67,11 @@ function print_array($arr = ["null", "null"]){
 		</script>
 	</head>
 	<body>
+		<?php
+		var_dump(highlight_string("<?\n" . var_export($devices, true)));
+		var_dump(highlight_string("<?\n" . var_export($regions, true)));
+		var_dump(highlight_string("<?\n" . var_export($android_versions, true)));
+		?>
 		<div id="devices-chart"></div>
 		<div id="regions-chart"></div>
 		<div id="android-versions-chart"></div>
