@@ -44,7 +44,7 @@ function print_array($arr = ["null", "null"]){
 		<title>Chart Test</title>
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script type="text/javascript">
-			google.charts.load("current", {"packages": ["corechart"]});
+			google.charts.load("current", {"packages": ["corechart", "geochart"]});
 			google.charts.setOnLoadCallback(drawChart);
 			
 			function drawChart(){
@@ -59,7 +59,7 @@ function print_array($arr = ["null", "null"]){
 				]);
 
 				const devicesChart = new google.visualization.PieChart(document.getElementById("devices-chart"));
-				const regionsChart = new google.visualization.GeoChart(document.getElementById("#regions-chart"));
+				const regionsChart = new google.visualization.GeoChart(document.getElementById("regions-chart"));
 				const androidVersionsChart = new google.visualization.Bar(document.getElementById("android-versions-chart"));
 
 				devicesChart.draw(devicesData, {title: "Device Models"});
