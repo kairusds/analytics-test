@@ -9,14 +9,14 @@ $devices = [];
 $regions = [];
 $android_versions = [];
 while($row = mysqli_fetch_assoc($res)){
-	increment_array($devices, $row["device_model"]);
-	increment_array($regions, iso_country_name($row["region"]));
-	increment_array($android_versions, $row["android_version"]);
+	$devices = increment_array($devices, $row["device_model"]);
+	$regions = increment_array($regions, iso_country_name($row["region"]));
+	$android_versions = increment_array($android_versions, $row["android_version"]);
 }
 
 function increment_array($arr, $key){
 	if(!isset($arr[$key])) $arr[$key] = 0;
-	$arr[$key]++;
+	return $arr[$key]++;
 }
 
 function print_array($arr = ["null", "null"]){
