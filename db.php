@@ -16,7 +16,7 @@ if(!$dbconn){
 }
 mysqli_select_db($dbconn, $database);
 
-function query($conn, $sql){
+function query(&$conn, $sql){
 	$res = null;
 	try{
 		$res = mysqli_query($conn, $sql);
