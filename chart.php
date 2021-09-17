@@ -58,11 +58,9 @@ function print_array($arr = ["null", "null"]){
 					["Android Versions", "Popularity"],<?php echo print_array($android_versions); ?>
 				]);
 
-				const $ = (selector) => document.querySelector(selector);
-
-				const devicesChart = new google.visualization.PieChart($("#devices-chart"));
-				const regionsChart = new google.visualization.GeoChart($("#regions-chart"));
-				const androidVersionsChart = new google.visualization.Bar($("#android-versions-chart"));
+				const devicesChart = new google.visualization.PieChart(document.getElementById("devices-chart"));
+				const regionsChart = new google.visualization.GeoChart(document.getElementById("#regions-chart"));
+				const androidVersionsChart = new google.visualization.Bar(document.getElementById("android-versions-chart"));
 
 				devicesChart.draw(devicesData, {title: "Device Models"});
 				regionsChart.draw(regionsData, {});
@@ -71,8 +69,8 @@ function print_array($arr = ["null", "null"]){
 		</script>
 	</head>
 	<body>
-		<div id="devices-chart"></div>
-		<div id="regions-chart"></div>
-		<div id="android-versions-chart"></div>
+		<div id="devices-chart" style="width: 900px; height: 500px;"></div>
+		<div id="regions-chart" style="width: 900px; height: 500px;"></div>
+		<div id="android-versions-chart" style="width: 900px; height: 300px;"></div>
 	</body>
 </html>
