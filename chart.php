@@ -9,18 +9,18 @@ $devices = [];
 $regions = [];
 $android_versions = [];
 while($row = mysqli_fetch_assoc($res)){
-	increment_array($devices, $row["device_model"]);
-	increment_array($regions, iso_country_name($row["region"]));
-	increment_array($android_versions, $row["android_version"]);
-}
+	$device = $row["device_model"];
+	$region = iso_country_name($row["region"]);
+	$android_ver = $row["android_version"];
 
-function increment_array($arr, $key){
-	try{
-		if(!isset($arr[$key])) $arr[$key] = 0;
-		$arr[$key]++;
-	}catch(Exception $e){
-		die($e);
-	}
+	if(!isset($devices[$device])) $devices[$device] = 0;
+	$devices[$device]++;
+
+	if(!isset($regions[$region])) $regions[$region] = 0;
+	$regions[$region]++;
+
+	if(!isset($android_versions[$android_ver])) $android_versions[$android_ver] = 0;
+	$android_versions[$android_ver]++;
 }
 
 function print_array($arr = ["null", "null"]){
