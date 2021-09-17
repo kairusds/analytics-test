@@ -10,7 +10,7 @@ $regions = [];
 $android_vers = [];
 while($row = mysqli_fetch_assoc($res)){
 	$device = $row["device_model"];
-	$region = $row["region"];
+	$region = iso_country_name($row["region"]);
 	$android_ver = $row["android_version"];
 	increment_array($devices, $device);
 	increment_array($regions, $region);
@@ -29,6 +29,7 @@ while($row = mysqli_fetch_assoc($res)){
 function increment_array(&$arr, $key){
 	if(!isset($arr[$key])) $arr[$key] = 0;
 	$arr[$key]++;
+	ksort($arr);
 }
 
 function print_array($arr = ["null", "null"]){
