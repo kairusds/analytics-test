@@ -51,8 +51,8 @@ $res = query($dbconn, "SELECT * FROM bbl_analytics ORDER BY id ASC");
 $count_query = query($dbconn, "SELECT COUNT(*) AS total FROM bbl_analytics");
 $count_res = mysqli_fetch_assoc($count_query);
 
-if($count_res["total"] > 100){
-	query($dbconn, "TRUNCATE bbl_analytics");
+if($count_res["total"] > 500){
+	query($dbconn, "DROP TABLE IF EXISTS `{$database}`.`bbl_analytics`");
 }
 
 while($row = mysqli_fetch_assoc($res)){
