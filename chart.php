@@ -26,7 +26,7 @@ while($row = mysqli_fetch_assoc($res)){
 	$android_vers[$android_ver]++;*/
 }
 
-function increment_array(&$arr, &$key){
+function increment_array(&$arr, $key){
 	if(!isset($arr[$key])) $arr[$key] = 0;
 	$arr[$key]++;
 }
