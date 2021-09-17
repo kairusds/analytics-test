@@ -41,7 +41,8 @@ echo <<<HTML
 				<th>ID</th>
 				<th>Device Model</th>
 				<th>Region</th>
-				<th>Android SDK</th>
+				<th>Android Version</th>
+				<th>Timestamp</th>
 			</tr>
 HTML;
 
@@ -60,7 +61,8 @@ while($row = mysqli_fetch_assoc($res)){
 				<td>{$row["id"]}</td>
 				<td>{$row["device_model"]}</td>
 				<td>{$row["region"]}</td>
-				<td>{$row["sdk_version"]}</td>
+				<td>{$row["android_version"]}</td>
+				<td>{$row["date"]}</td>
 			</tr>
 HTML;
 }

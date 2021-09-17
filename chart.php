@@ -23,9 +23,9 @@ function print_array($arr = ["null", "null"]){
 	$x = 0;
 	$str = "";
 	foreach($arr as $key => $val){
-		echo "[\"{$key}\", $val]";
+		$str .= "[\"{$key}\", $val]";
 		$x++;
-		if($x < count($devices)) echo ",";
+		if($x < count($devices)) $str .= ",";
 	}
 	return $str;
 }
